@@ -1,0 +1,388 @@
+{
+    "sfm_data_version": "0.3",
+    "root_path": "C:\\Users\\Kolldun\\PycharmProjects\\video_converter\\photo\\set1",
+    "views": [
+        {
+            "key": 0,
+            "value": {
+                "polymorphic_id": 1073741824,
+                "ptr_wrapper": {
+                    "id": 2147483649,
+                    "data": {
+                        "local_path": "",
+                        "filename": "frame0.jpg",
+                        "width": 720,
+                        "height": 1280,
+                        "id_view": 0,
+                        "id_intrinsic": 4294967295,
+                        "id_pose": 0
+                    }
+                }
+            }
+        },
+        {
+            "key": 1,
+            "value": {
+                "polymorphic_id": 1073741824,
+                "ptr_wrapper": {
+                    "id": 2147483650,
+                    "data": {
+                        "local_path": "",
+                        "filename": "frame1.jpg",
+                        "width": 720,
+                        "height": 1280,
+                        "id_view": 1,
+                        "id_intrinsic": 4294967295,
+                        "id_pose": 1
+                    }
+                }
+            }
+        },
+        {
+            "key": 2,
+            "value": {
+                "polymorphic_id": 1073741824,
+                "ptr_wrapper": {
+                    "id": 2147483651,
+                    "data": {
+                        "local_path": "",
+                        "filename": "frame10.jpg",
+                        "width": 720,
+                        "height": 1280,
+                        "id_view": 2,
+                        "id_intrinsic": 4294967295,
+                        "id_pose": 2
+                    }
+                }
+            }
+        },
+        {
+            "key": 3,
+            "value": {
+                "polymorphic_id": 1073741824,
+                "ptr_wrapper": {
+                    "id": 2147483652,
+                    "data": {
+                        "local_path": "",
+                        "filename": "frame11.jpg",
+                        "width": 720,
+                        "height": 1280,
+                        "id_view": 3,
+                        "id_intrinsic": 4294967295,
+                        "id_pose": 3
+                    }
+                }
+            }
+        },
+        {
+            "key": 4,
+            "value": {
+                "polymorphic_id": 1073741824,
+                "ptr_wrapper": {
+                    "id": 2147483653,
+                    "data": {
+                        "local_path": "",
+                        "filename": "frame12.jpg",
+                        "width": 720,
+                        "height": 1280,
+                        "id_view": 4,
+                        "id_intrinsic": 4294967295,
+                        "id_pose": 4
+                    }
+                }
+            }
+        },
+        {
+            "key": 5,
+            "value": {
+                "polymorphic_id": 1073741824,
+                "ptr_wrapper": {
+                    "id": 2147483654,
+                    "data": {
+                        "local_path": "",
+                        "filename": "frame13.jpg",
+                        "width": 720,
+                        "height": 1280,
+                        "id_view": 5,
+                        "id_intrinsic": 4294967295,
+                        "id_pose": 5
+                    }
+                }
+            }
+        },
+        {
+            "key": 6,
+            "value": {
+                "polymorphic_id": 1073741824,
+                "ptr_wrapper": {
+                    "id": 2147483655,
+                    "data": {
+                        "local_path": "",
+                        "filename": "frame14.jpg",
+                        "width": 720,
+                        "height": 1280,
+                        "id_view": 6,
+                        "id_intrinsic": 4294967295,
+                        "id_pose": 6
+                    }
+                }
+            }
+        },
+        {
+            "key": 7,
+            "value": {
+                "polymorphic_id": 1073741824,
+                "ptr_wrapper": {
+                    "id": 2147483656,
+                    "data": {
+                        "local_path": "",
+                        "filename": "frame15.jpg",
+                        "width": 720,
+                        "height": 1280,
+                        "id_view": 7,
+                        "id_intrinsic": 4294967295,
+                        "id_pose": 7
+                    }
+                }
+            }
+        },
+        {
+            "key": 8,
+            "value": {
+                "polymorphic_id": 1073741824,
+                "ptr_wrapper": {
+                    "id": 2147483657,
+                    "data": {
+                        "local_path": "",
+                        "filename": "frame16.jpg",
+                        "width": 720,
+                        "height": 1280,
+                        "id_view": 8,
+                        "id_intrinsic": 4294967295,
+                        "id_pose": 8
+                    }
+                }
+            }
+        },
+        {
+            "key": 9,
+            "value": {
+                "polymorphic_id": 1073741824,
+                "ptr_wrapper": {
+                    "id": 2147483658,
+                    "data": {
+                        "local_path": "",
+                        "filename": "frame17.jpg",
+                        "width": 720,
+                        "height": 1280,
+                        "id_view": 9,
+                        "id_intrinsic": 4294967295,
+                        "id_pose": 9
+                    }
+                }
+            }
+        },
+        {
+            "key": 10,
+            "value": {
+                "polymorphic_id": 1073741824,
+                "ptr_wrapper": {
+                    "id": 2147483659,
+                    "data": {
+                        "local_path": "",
+                        "filename": "frame18.jpg",
+                        "width": 720,
+                        "height": 1280,
+                        "id_view": 10,
+                        "id_intrinsic": 4294967295,
+                        "id_pose": 10
+                    }
+                }
+            }
+        },
+        {
+            "key": 11,
+            "value": {
+                "polymorphic_id": 1073741824,
+                "ptr_wrapper": {
+                    "id": 2147483660,
+                    "data": {
+                        "local_path": "",
+                        "filename": "frame19.jpg",
+                        "width": 720,
+                        "height": 1280,
+                        "id_view": 11,
+                        "id_intrinsic": 4294967295,
+                        "id_pose": 11
+                    }
+                }
+            }
+        },
+        {
+            "key": 12,
+            "value": {
+                "polymorphic_id": 1073741824,
+                "ptr_wrapper": {
+                    "id": 2147483661,
+                    "data": {
+                        "local_path": "",
+                        "filename": "frame2.jpg",
+                        "width": 720,
+                        "height": 1280,
+                        "id_view": 12,
+                        "id_intrinsic": 4294967295,
+                        "id_pose": 12
+                    }
+                }
+            }
+        },
+        {
+            "key": 13,
+            "value": {
+                "polymorphic_id": 1073741824,
+                "ptr_wrapper": {
+                    "id": 2147483662,
+                    "data": {
+                        "local_path": "",
+                        "filename": "frame20.jpg",
+                        "width": 720,
+                        "height": 1280,
+                        "id_view": 13,
+                        "id_intrinsic": 4294967295,
+                        "id_pose": 13
+                    }
+                }
+            }
+        },
+        {
+            "key": 14,
+            "value": {
+                "polymorphic_id": 1073741824,
+                "ptr_wrapper": {
+                    "id": 2147483663,
+                    "data": {
+                        "local_path": "",
+                        "filename": "frame3.jpg",
+                        "width": 720,
+                        "height": 1280,
+                        "id_view": 14,
+                        "id_intrinsic": 4294967295,
+                        "id_pose": 14
+                    }
+                }
+            }
+        },
+        {
+            "key": 15,
+            "value": {
+                "polymorphic_id": 1073741824,
+                "ptr_wrapper": {
+                    "id": 2147483664,
+                    "data": {
+                        "local_path": "",
+                        "filename": "frame4.jpg",
+                        "width": 720,
+                        "height": 1280,
+                        "id_view": 15,
+                        "id_intrinsic": 4294967295,
+                        "id_pose": 15
+                    }
+                }
+            }
+        },
+        {
+            "key": 16,
+            "value": {
+                "polymorphic_id": 1073741824,
+                "ptr_wrapper": {
+                    "id": 2147483665,
+                    "data": {
+                        "local_path": "",
+                        "filename": "frame5.jpg",
+                        "width": 720,
+                        "height": 1280,
+                        "id_view": 16,
+                        "id_intrinsic": 4294967295,
+                        "id_pose": 16
+                    }
+                }
+            }
+        },
+        {
+            "key": 17,
+            "value": {
+                "polymorphic_id": 1073741824,
+                "ptr_wrapper": {
+                    "id": 2147483666,
+                    "data": {
+                        "local_path": "",
+                        "filename": "frame6.jpg",
+                        "width": 720,
+                        "height": 1280,
+                        "id_view": 17,
+                        "id_intrinsic": 4294967295,
+                        "id_pose": 17
+                    }
+                }
+            }
+        },
+        {
+            "key": 18,
+            "value": {
+                "polymorphic_id": 1073741824,
+                "ptr_wrapper": {
+                    "id": 2147483667,
+                    "data": {
+                        "local_path": "",
+                        "filename": "frame7.jpg",
+                        "width": 720,
+                        "height": 1280,
+                        "id_view": 18,
+                        "id_intrinsic": 4294967295,
+                        "id_pose": 18
+                    }
+                }
+            }
+        },
+        {
+            "key": 19,
+            "value": {
+                "polymorphic_id": 1073741824,
+                "ptr_wrapper": {
+                    "id": 2147483668,
+                    "data": {
+                        "local_path": "",
+                        "filename": "frame8.jpg",
+                        "width": 720,
+                        "height": 1280,
+                        "id_view": 19,
+                        "id_intrinsic": 4294967295,
+                        "id_pose": 19
+                    }
+                }
+            }
+        },
+        {
+            "key": 20,
+            "value": {
+                "polymorphic_id": 1073741824,
+                "ptr_wrapper": {
+                    "id": 2147483669,
+                    "data": {
+                        "local_path": "",
+                        "filename": "frame9.jpg",
+                        "width": 720,
+                        "height": 1280,
+                        "id_view": 20,
+                        "id_intrinsic": 4294967295,
+                        "id_pose": 20
+                    }
+                }
+            }
+        }
+    ],
+    "intrinsics": [],
+    "extrinsics": [],
+    "structure": [],
+    "control_points": []
+}
