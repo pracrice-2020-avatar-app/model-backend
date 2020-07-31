@@ -5,7 +5,7 @@
 
 # Python script to launch OpenMVG SfM tools on an image dataset
 #
-# usage : python tutorial_demo.py
+# usage : python open-mvg-pipline.py
 #
 
 # Indicate the openMVG binary directory
@@ -22,14 +22,14 @@ def get_parent_dir(directory):
     return os.path.dirname(directory)
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
-input_eval_dir = os.path.abspath("./photo")
+input_eval_dir = os.path.abspath("./for-mvg")
 # Checkout an OpenMVG image dataset with Git
 if not os.path.exists(input_eval_dir):
   pImageDataCheckout = subprocess.Popen([ "git", "clone", "https://github.com/openMVG/ImageDataset_SceauxCastle.git" ])
   pImageDataCheckout.wait()
 
-nameset = "set8"
-output_eval_dir = os.path.join(get_parent_dir(input_eval_dir), "output_" + nameset)
+nameset = "set6"
+output_eval_dir = os.path.join(get_parent_dir(input_eval_dir), 'mvg-output', "output_" + nameset)
 input_eval_dir = os.path.join(input_eval_dir, nameset)
 if not os.path.exists(output_eval_dir):
   os.mkdir(output_eval_dir)
@@ -50,7 +50,7 @@ if not os.path.exists(matches_dir):
   os.mkdir(matches_dir)
 
 print ("1. Intrinsics analysis")
-pIntrisics = subprocess.Popen( [os.path.join(OPENMVG_SFM_BIN, "openMVG_main_SfMInit_ImageListing"),  "-i", input_dir, "-o", matches_dir, "-d", camera_file_params, ])
+pIntrisics = subprocess.Popen( [os.path.join(OPENMVG_SFM_BIN, "openMVG_main_SfMInit_ImageListing"),  "-i", input_dir, "-o", matches_dir, "-d", camera_file_params, '-f', str(1.2 * max(4032, 3024))])
 pIntrisics.wait()
 
 print ("2. Compute features")
