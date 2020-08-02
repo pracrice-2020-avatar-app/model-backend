@@ -1,6 +1,7 @@
 import cv2
 import os
 import shutil
+from math import *
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 input_eval_dir = os.path.abspath("")
@@ -18,11 +19,11 @@ for video_u in files:
     frame = 0 #after first frame read, so frame 0 will be saved, next every 10th
     success = True
     #print(input_eval_dir, success, image)
+    u = int(vidcap.get(cv2.CAP_PROP_FRAME_COUNT)) / 20
+    print(u)
     while success:
-
-        if frame % (int(vidcap.get(cv2.CAP_PROP_FRAME_COUNT)) // 20) == 0:
+        if frame % ceil(u) == 0:
            #print(os.path.join(input_eval_dir, "frame%d.jpg" % count))
-           print(img.shape)
            #img = cv2.imread("path_to_image.jpg")
 
            # rotate ccw

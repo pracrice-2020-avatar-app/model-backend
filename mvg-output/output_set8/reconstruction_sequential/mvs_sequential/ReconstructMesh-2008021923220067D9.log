@@ -1,0 +1,31 @@
+19:23:22 [App     ] Build date: Jul 23 2020, 18:14:42
+19:23:22 [App     ] CPU: Intel(R) Core(TM) i5-8400H CPU @ 2.50GHz (8 cores)
+19:23:22 [App     ] RAM: 7.80GB Physical Memory 128.00TB Virtual Memory
+19:23:22 [App     ] OS: Windows 8 x64
+19:23:22 [App     ] SSE & AVX compatible CPU & OS detected
+19:23:22 [App     ] Command line: scene_dense.mvs --free-space-support 0 --decimate 0.1
+19:23:22 [App     ] Scene loaded (305ms):
+	29 images (29 calibrated) with a total of 8.60 MPixels (0.30 MPixels/image)
+	198576 points, 0 vertices, 0 faces
+19:23:24 [App     ] Delaunay tetrahedralization completed: 198576 points -> 172325 vertices, 1102194 (+158) cells, 2204467 (+237) faces (2s56ms)
+19:23:27 [App     ] Delaunay tetrahedras weighting completed: 1102352 cells, 2204704 faces (2s837ms)
+19:23:30 [App     ] Delaunay tetrahedras graph-cut completed (279232 flow): 116339 vertices, 232700 faces (2s576ms)
+19:23:32 [App     ] Mesh reconstruction completed: 116352 vertices, 232654 faces (9s714ms)
+19:23:34 [App     ] Cleaned mesh: 11559 vertices, 23121 faces (2s81ms)
+19:23:34 [App     ] Cleaned mesh: 11559 vertices, 23126 faces (39ms)
+19:23:34 [App     ] Cleaned mesh: 11559 vertices, 23126 faces (31ms)
+19:23:34 [App     ] Scene saved (93ms):
+	29 images (29 calibrated)
+	0 points, 11559 vertices, 23126 faces
+19:23:34 [App     ] Mesh saved: 11559 vertices, 23126 faces (19ms)
+19:23:34 [App     ] MEMORYINFO: {
+19:23:34 [App     ] 	PageFaultCount 142298
+19:23:34 [App     ] 	PeakWorkingSetSize 363.29MB
+19:23:34 [App     ] 	WorkingSetSize 20.88MB
+19:23:34 [App     ] 	QuotaPeakPagedPoolUsage 128.40KB
+19:23:34 [App     ] 	QuotaPagedPoolUsage 128.23KB
+19:23:34 [App     ] 	QuotaPeakNonPagedPoolUsage 15.40KB
+19:23:34 [App     ] 	QuotaNonPagedPoolUsage 14.07KB
+19:23:34 [App     ] 	PagefileUsage 17.00MB
+19:23:34 [App     ] 	PeakPagefileUsage 380.94MB
+19:23:34 [App     ] } ENDINFO

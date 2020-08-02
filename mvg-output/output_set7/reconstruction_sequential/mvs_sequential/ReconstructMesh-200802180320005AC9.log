@@ -1,0 +1,6 @@
+18:03:20 [App     ] Build date: Jul 23 2020, 18:14:42
+18:03:20 [App     ] CPU: Intel(R) Core(TM) i5-8400H CPU @ 2.50GHz (8 cores)
+18:03:20 [App     ] RAM: 7.80GB Physical Memory 128.00TB Virtual Memory
+18:03:20 [App     ] OS: Windows 8 x64
+18:03:20 [App     ] SSE & AVX compatible CPU & OS detected
+18:03:20 [App     ] Command line: scene_dense.mvs --free-space-support 0 --min-point-distance 15 --decimate 0.1

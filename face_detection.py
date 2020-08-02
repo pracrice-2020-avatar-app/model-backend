@@ -26,6 +26,13 @@ def intoshape(u, w, h):
 	return u.copy()
 
 def detect_face(requestId):
+	os.chdir(os.path.dirname(os.path.abspath(__file__)))
+	delete_face_parsing = ['test_color_visualize', 'test_results', 'Data_preprocessing/test_img']
+	delete_path = []
+	for i in delete_face_parsing:
+		delete_path.append(os.path.abspath(os.path.join('face-parsing', i)))
+	print(delete_path)
+	utilu.delete_dirs(delete_path)
 	utilu.rename_set_images(requestId)
 	if not os.path.exists('face_detection/updated_images/' + 'set' + str(requestId)):
 		print('New directory created')
@@ -34,6 +41,9 @@ def detect_face(requestId):
 	if not os.path.exists('face_detection/faces'):
 		print('New directory created')
 		os.makedirs('face_detection/faces')
+	if not os.path.exists('face-parsind/Data_preprocessing/test_img'):
+		print('New directory created')
+		os.makedirs('face-parsing/Data_preprocessing/test_img')
 	labelh = dict()
 	face_dir = base_dir + '/face_detection'
 	count = -1
@@ -67,7 +77,7 @@ def detect_face(requestId):
 				frame = image[shape27[1]:shape27[3], shape27[0]:shape27[2]].copy()
 				cv2.rectangle(image, (startX, startY), (endX, endY), (255, 255, 255), 2)
 				cv2.rectangle(image, tuple(shape27[:2]), tuple(shape27[2:]), (255, 255, 255), 2)
-				labelh[int(file[:-4])] = [shape27, shape, shape27[2] - shape27[0]]
+				labelh[int(file[:-4])] = [shape27, shape, shape27[2] - shape27[0], shape27[3] - shape27[1]]
 		cv2.imwrite(face_dir + '/updated_images/' + 'set' + str(requestId) + '/' + file, image)
 		frame = cv2.resize(frame, (512, 512))
 		cv2.imwrite(base_dir + '/face-parsing/Data_preprocessing/test_img/' + str(count) + '.jpg', frame)
@@ -91,8 +101,8 @@ def detect_face(requestId):
 			mask = flood_fill_single(image, mask, i)
 		mask_new = cv2.bitwise_not(mask)
 		mask_new = mask_new[1:-1, 1:-1]
-		print(mask_new.shape, int(file[:-4]), len(labelh))
-		mask_new = cv2.resize(mask_new, (labelh[int(file[:-4])][2], labelh[int(file[:-4])][2]))
+		print(mask_new.shape, int(file[:-4]), labelh[int(file[:-4])])
+		mask_new = cv2.resize(mask_new, (labelh[int(file[:-4])][2], labelh[int(file[:-4])][3]))
 		base_img = base[file[:-4]].copy()
 		mask = np.zeros((base_img.shape[0], base_img.shape[1]), np.uint8)
 		xstart, ystart, xend, yend = labelh[int(file[:-4])][0][:]
@@ -101,13 +111,9 @@ def detect_face(requestId):
 		#print(roi.shape, mask_new.shape, xstart - xend, ystart - yend)
 		#u = cv2.bitwise_and(roi, mask_new)
 		#cv2.CvtColor(vis, vis2, cv.CV_GRAY2BGR)
-		print(mask)
+
 		path = base_dir + '/for-mvg/' + 'set' + str(requestId) + '/' + file[:-4] + '_mask.png'
 		if not os.path.exists(base_dir + '/for-mvg/' + 'set' + str(requestId)):
 			#print('New directory created')
 			os.makedirs(base_dir + '/for-mvg/' + 'set' + str(requestId))
 		Image.fromarray(np.uint8(mask)).save(path)
-
-
-
-detect_face(6)
