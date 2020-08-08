@@ -19,11 +19,24 @@ public class ModelServiceImpl implements ModelService {
     // Переменная для генерации ID модели
     private static final AtomicInteger MODEL_ID_HOLDER = new AtomicInteger();
 
+    private static int maxId = 0;
+
     @Override
     public void createModel(Model model){
         Integer id = MODEL_ID_HOLDER.incrementAndGet();
         model.setId(id);
         MODEL_REPOSITORY_MAP.put(id,model);
+    }
+
+    @Override
+    public void setMaxId(int id){
+        maxId = id;
+        MODEL_ID_HOLDER.set(maxId);
+    }
+
+    @Override
+    public int getMaxId(){
+        return maxId;
     }
 
     @Override

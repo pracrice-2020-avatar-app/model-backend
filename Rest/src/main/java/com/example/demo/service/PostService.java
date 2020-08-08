@@ -16,4 +16,9 @@ public interface PostService {
 
     boolean updatePost(Post post, int postId);
 
+    void setMaxId(int id);
+
+    int getMaxId();
+
+
 }

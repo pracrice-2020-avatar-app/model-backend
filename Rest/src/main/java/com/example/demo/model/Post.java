@@ -1,14 +1,14 @@
 package com.example.demo.model;
 
 public class Post extends Parent {
-    private Integer id;
-    private Integer authorId;
+    private Integer postId;
+    private String authorId;
     private String authorName;
     private String text;
     private String imageLink;
 
     public Integer getId() {
-        return id;
+        return postId;
     }
 
     public String getText() {
@@ -19,7 +19,7 @@ public class Post extends Parent {
         return imageLink;
     }
 
-    public Integer getAuthorId() {
+    public String getAuthorId() {
         return authorId;
     }
 
@@ -31,12 +31,12 @@ public class Post extends Parent {
         this.imageLink = imageLink;
     }
 
-    public void setAuthorId(Integer authorId) {
+    public void setAuthorId(String authorId) {
         this.authorId = authorId;
     }
 
     public void setId(Integer id) {
-        this.id = id;
+        this.postId = id;
     }
 
     public void setAuthorName(String authorName) {

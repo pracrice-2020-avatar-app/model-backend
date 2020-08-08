@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Client extends Parent {
 
-    private Integer id;
+    private Integer clientId;
     private String name;
     private String email;
     private String text;
@@ -16,7 +16,7 @@ public class Client extends Parent {
     private List<Integer> modelsId = new ArrayList<>();
 
     public Integer getId() {
-        return id;
+        return clientId;
     }
 
     public Integer getFollowersNumber() {
@@ -41,7 +41,7 @@ public class Client extends Parent {
     }
 
     public void setId(Integer id) {
-        this.id = id;
+        this.clientId = id;
     }
 
     public String getName() {

@@ -12,5 +12,9 @@ public interface ModelService {
 
     boolean deleteModel(Integer modelId);
 
+    void setMaxId(int id);
+
+    int getMaxId();
+
     List<Model> readAllModels();
 }

@@ -19,6 +19,9 @@ public class PostServiceImpl implements PostService {
 
     // Переменная для генерации ID поста
     private static final AtomicInteger POST_ID_HOLDER = new AtomicInteger();
+
+    private static int maxId = 0;
+
     @Override
     public void createPost (Post post){
         final int postId = POST_ID_HOLDER.incrementAndGet();
@@ -31,6 +34,16 @@ public class PostServiceImpl implements PostService {
         return new ArrayList<>(POST_REPOSITORY_MAP.values());
     }
 
+    @Override
+    public void setMaxId(int id){
+        maxId = id;
+        POST_ID_HOLDER.set(maxId);
+    }
+
+    @Override
+    public int getMaxId(){
+        return maxId;
+    }
     @Override
     public Post readPost(int postId) {
         return POST_REPOSITORY_MAP.get(postId);

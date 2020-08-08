@@ -35,16 +35,19 @@ public class Controller {
         this.firebaseInitialize = firebaseInitialize;
         firebaseInitialize.init();
         firebaseServiceImpl.includeClients(clientService);
-
+        firebaseServiceImpl.includeModels(modelService);
+        firebaseServiceImpl.includePosts(postService);
     }
     @PostMapping(value = "/posts")
-    public ResponseEntity<?> createPost(@RequestBody Post post) {
-        final Client client = clientService.read(post.getAuthorId());
+    public ResponseEntity<?> createPost(@RequestBody Post post) throws ExecutionException, InterruptedException {
+        final Client client = clientService.read(Integer.parseInt(post.getAuthorId()));
         if (client != null) {
             postService.createPost(post);
-            clientService.addPostId(post.getId(),post.getAuthorId());
+            clientService.addPostId(post.getId(),(Integer.parseInt(post.getAuthorId())));
+            firebaseServiceImpl.update(clientService.read(Integer.parseInt(post.getAuthorId())),"clients");
             post.setAuthorName(client.getName());
             post.setImageLink(client.getImageLink());
+            firebaseServiceImpl.saveDetails(post,"posts");
             return new ResponseEntity<>(HttpStatus.CREATED);
         }
         return new ResponseEntity<>(post.getAuthorName(),HttpStatus.NOT_FOUND);
@@ -69,9 +72,14 @@ public class Controller {
     }
 
     @DeleteMapping(value = "/posts/{postId}")
-    public ResponseEntity<?> deletePost(@PathVariable(name = "postId") Integer postId) {
-        clientService.read(postService.readPost(postId).getAuthorId()).deletePostId(postId);
+    public ResponseEntity<?> deletePost(@PathVariable(name = "postId") Integer postId) throws ExecutionException, InterruptedException {
+        Post post = postService.readPost(postId);
+        clientService.read(Integer.parseInt(post.getAuthorId())).deletePostId(postId);
         final boolean deleted = postService.deletePost(postId);
+        if (deleted){
+            firebaseServiceImpl.delete(post,"posts");
+            firebaseServiceImpl.update(clientService.read(Integer.parseInt(post.getAuthorId())),"clients");
+        }
 
         return deleted
                 ? new ResponseEntity<>(HttpStatus.OK)
@@ -79,21 +87,27 @@ public class Controller {
     }
 
     @PutMapping(value = "/posts/{postId}")
-    public ResponseEntity<?> updatePost(@PathVariable(name = "postId") int postId, @RequestBody Post post) {
+    public ResponseEntity<?> updatePost(@PathVariable(name = "postId") int postId, @RequestBody Post post) throws ExecutionException, InterruptedException {
         final boolean updated = postService.updatePost(post, postId);
+        if (updated){
+            firebaseServiceImpl.update(post,"posts");
+            clientService.read(postId).setImageLink(post.getImageLink());
+            firebaseServiceImpl.update( clientService.read(postId),"clients");
+        }
         return updated
                 ? new ResponseEntity<>(HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
     }
 
     @PostMapping(value = "/models")
-    public ResponseEntity<?> createModel(@RequestBody Model model) {
+    public ResponseEntity<?> createModel(@RequestBody Model model) throws ExecutionException, InterruptedException {
         final Client client = clientService.read(model.getAuthorId());
         if (client != null) {
             modelService.createModel(model);
             client.addModelId(model.getId());
-            clientService.addModelId(model.getId(), model.getAuthorId());
             model.setAuthorName(client.getName());
+            firebaseServiceImpl.update(client,"clients");
+            firebaseServiceImpl.saveDetails(model,"models");
             return new ResponseEntity<>(model.getId(),HttpStatus.CREATED);
         }
         return new ResponseEntity<>(model.getAuthorName(),HttpStatus.NOT_FOUND);
@@ -118,9 +132,14 @@ public class Controller {
     }
 
     @DeleteMapping(value = "/models/{modelId}")
-    public ResponseEntity<?> deleteModel(@PathVariable(name = "modelId") Integer modelId) {
-        clientService.read(modelService.readModel(modelId).getAuthorId()).deleteModelId(modelId);
+    public ResponseEntity<?> deleteModel(@PathVariable(name = "modelId") Integer modelId) throws ExecutionException, InterruptedException {
+        Model model = modelService.readModel(modelId);
+        clientService.read(model.getAuthorId()).deleteModelId(modelId);
         final boolean deleted = modelService.deleteModel(modelId);
+        if (deleted){
+            firebaseServiceImpl.delete(model,"models");
+            firebaseServiceImpl.update(clientService.read(model.getAuthorId()),"clients");
+        }
 
         return deleted
                 ? new ResponseEntity<>(HttpStatus.OK)
@@ -131,7 +150,7 @@ public class Controller {
     @PostMapping(value = "/clients")
     public ResponseEntity<?> createClient(@RequestBody Client client) throws ExecutionException, InterruptedException {
         clientService.create(client);
-        firebaseServiceImpl.saveClientDetails(client);
+        firebaseServiceImpl.saveDetails(client,"clients");
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -194,6 +213,12 @@ public class Controller {
             });
             client.getPostsId().forEach(postService::deletePost);
             client.getModelsId().forEach(modelService::deleteModel);
+            client.getPostsId().forEach(postId -> {
+                firebaseServiceImpl.delete(postService.readPost(postId),"posts");
+            });
+            client.getModelsId().forEach(modelId -> {
+                firebaseServiceImpl.delete(modelService.readModel(modelId),"models");
+            });
         }
 
         return deleted

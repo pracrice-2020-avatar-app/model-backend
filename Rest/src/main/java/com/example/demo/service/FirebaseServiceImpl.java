@@ -1,7 +1,9 @@
 package com.example.demo.service;
 
 import com.example.demo.model.Client;
+import com.example.demo.model.Model;
 import com.example.demo.model.Parent;
+import com.example.demo.model.Post;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
@@ -14,9 +16,9 @@ import java.util.concurrent.ExecutionException;
 
 @Service
 public class FirebaseServiceImpl implements FirebaseService{
-    public String saveClientDetails(Client client) throws ExecutionException, InterruptedException {
+    public String saveDetails(Parent parent,String type) throws ExecutionException, InterruptedException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        ApiFuture<WriteResult> collectionsApiFuture = dbFirestore.collection("clients").document(client.getId().toString()).set(client);
+        ApiFuture<WriteResult> collectionsApiFuture = dbFirestore.collection(type).document(parent.getId().toString()).set(parent);
         return collectionsApiFuture.get().getUpdateTime().toString();
     }
     public Client getClientDetails(Integer id) throws ExecutionException, InterruptedException {
@@ -33,6 +35,7 @@ public class FirebaseServiceImpl implements FirebaseService{
 
     }
 
+    @Override
     public void includeClients(ClientService clientService){
         Firestore dbFirestore = FirestoreClient.getFirestore();
         dbFirestore.collection("clients").listDocuments().forEach(client -> {
@@ -41,6 +44,40 @@ public class FirebaseServiceImpl implements FirebaseService{
                 if (clientService.getMaxId() < maxId)
                     clientService.setMaxId(maxId - 1);
                 clientService.create(client.get().get().toObject(Client.class));
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    @Override
+    public void includeModels(ModelService modelService){
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        dbFirestore.collection("models").listDocuments().forEach(model -> {
+            try {
+                int maxId = model.get().get().toObject(Model.class).getId();
+                if (modelService.getMaxId() < maxId)
+                    modelService.setMaxId(maxId - 1);
+                modelService.createModel(model.get().get().toObject(Model.class));
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    @Override
+    public void includePosts(PostService postService){
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        dbFirestore.collection("posts").listDocuments().forEach(post -> {
+            try {
+                int maxId = post.get().get().toObject(Post.class).getId();
+                if (postService.getMaxId() < maxId)
+                    postService.setMaxId(maxId - 1);
+                postService.createPost(post.get().get().toObject(Post.class));
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (ExecutionException e) {
