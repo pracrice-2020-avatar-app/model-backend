@@ -8,9 +8,9 @@ public interface ModelService {
 
     void createModel(Model model);
 
-    Model readModel(Integer modelId);
+    Model readModel(String modelId);
 
-    boolean deleteModel(Integer modelId);
+    boolean deleteModel(String modelId);
 
     void setMaxId(int id);
 

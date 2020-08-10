@@ -10,11 +10,11 @@ public interface PostService {
 
     List<Post> readAllPosts();
 
-    Post readPost(int postId);
+    Post readPost(String postId);
 
-    boolean deletePost(int postId);
+    boolean deletePost(String postId);
 
-    boolean updatePost(Post post, int postId);
+    boolean updatePost(Post post, String postId);
 
     void setMaxId(int id);
 

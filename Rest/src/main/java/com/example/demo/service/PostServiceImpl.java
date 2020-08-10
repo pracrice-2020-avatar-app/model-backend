@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class PostServiceImpl implements PostService {
     //Хранилище Постов
-    private static final Map<Integer, Post> POST_REPOSITORY_MAP = new HashMap<>();
+    private static final Map<String, Post> POST_REPOSITORY_MAP = new HashMap<>();
 
 
     // Переменная для генерации ID поста
@@ -24,9 +24,9 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public void createPost (Post post){
-        final int postId = POST_ID_HOLDER.incrementAndGet();
-        post.setId(postId);
-        POST_REPOSITORY_MAP.put(postId,post);
+        Integer postId = POST_ID_HOLDER.incrementAndGet();
+        post.setId(postId.toString());
+        POST_REPOSITORY_MAP.put(postId.toString(),post);
     }
 
     @Override
@@ -45,15 +45,15 @@ public class PostServiceImpl implements PostService {
         return maxId;
     }
     @Override
-    public Post readPost(int postId) {
+    public Post readPost(String postId) {
         return POST_REPOSITORY_MAP.get(postId);
     }
 
-    public boolean deletePost(int postId){
+    public boolean deletePost(String postId){
         return POST_REPOSITORY_MAP.remove(postId) != null;
     }
 
-    public boolean updatePost(Post post, int postId){
+    public boolean updatePost(Post post, String postId){
         if (POST_REPOSITORY_MAP.containsKey(postId)) {
             post.setId(postId);
             POST_REPOSITORY_MAP.put(postId,post);

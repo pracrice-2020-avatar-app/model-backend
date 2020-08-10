@@ -1,8 +1,8 @@
 package com.example.demo.model;
 
 public class Model extends Parent {
-    private Integer modelId;
-    private Integer authorId;
+    private String modelId;
+    private String authorId;
     private String authorName;
     private String modelLink;
 
@@ -14,15 +14,15 @@ public class Model extends Parent {
         this.authorName = authorName;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.modelId = id;
     }
 
-    public Integer getId() {
+    public String getId() {
         return modelId;
     }
 
-    public Integer getAuthorId() {
+    public String getAuthorId() {
         return authorId;
     }
 
@@ -30,7 +30,7 @@ public class Model extends Parent {
         return modelLink;
     }
 
-    public void setAuthorId(Integer authorId) {
+    public void setAuthorId(String authorId) {
         this.authorId = authorId;
     }
 

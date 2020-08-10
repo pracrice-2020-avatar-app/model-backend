@@ -13,7 +13,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Service
 public class ModelServiceImpl implements ModelService {
     //Хранилище моделей
-    private static final Map<Integer, Model> MODEL_REPOSITORY_MAP = new HashMap<>();
+    private static final Map<String, Model> MODEL_REPOSITORY_MAP = new HashMap<>();
 
 
     // Переменная для генерации ID модели
@@ -24,8 +24,8 @@ public class ModelServiceImpl implements ModelService {
     @Override
     public void createModel(Model model){
         Integer id = MODEL_ID_HOLDER.incrementAndGet();
-        model.setId(id);
-        MODEL_REPOSITORY_MAP.put(id,model);
+        model.setId(id.toString());
+        MODEL_REPOSITORY_MAP.put(id.toString(),model);
     }
 
     @Override
@@ -40,12 +40,12 @@ public class ModelServiceImpl implements ModelService {
     }
 
     @Override
-    public Model readModel(Integer modeId){
+    public Model readModel(String modeId){
         return MODEL_REPOSITORY_MAP.get(modeId);
     }
 
     @Override
-    public boolean deleteModel(Integer modelId) {
+    public boolean deleteModel(String modelId) {
         return MODEL_REPOSITORY_MAP.remove(modelId) != null;
     }
 

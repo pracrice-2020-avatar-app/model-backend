@@ -8,7 +8,7 @@ import java.util.concurrent.ExecutionException;
 public interface FirebaseService {
     String saveDetails(Parent parent, String type) throws ExecutionException, InterruptedException;
 
-    Client getClientDetails(Integer id) throws ExecutionException, InterruptedException;
+    Client getClientDetails(String id) throws ExecutionException, InterruptedException;
 
     void includeClients(ClientService clientService);
 

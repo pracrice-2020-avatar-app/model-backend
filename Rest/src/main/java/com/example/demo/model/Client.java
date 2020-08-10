@@ -5,17 +5,17 @@ import java.util.List;
 
 public class Client extends Parent {
 
-    private Integer clientId;
+    private String clientId;
     private String name;
     private String email;
     private String text;
     private String imageLink;
-    private List<Integer> followers = new ArrayList<>();
-    private List<Integer> followed = new ArrayList<>();
-    private List<Integer> postsId = new ArrayList<>();
-    private List<Integer> modelsId = new ArrayList<>();
+    private List<String> followers = new ArrayList<>();
+    private List<String> followed = new ArrayList<>();
+    private List<String> postsId = new ArrayList<>();
+    private List<String> modelsId = new ArrayList<>();
 
-    public Integer getId() {
+    public String getId() {
         return clientId;
     }
 
@@ -40,7 +40,7 @@ public class Client extends Parent {
         this.text = text;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.clientId = id;
     }
 
@@ -60,27 +60,28 @@ public class Client extends Parent {
         this.email = email;
     }
 
-    public void addFollowerId(Integer id){
+    public void addFollowerId(String id){
         followers.add(id);
     }
 
-    public boolean deleteFollowerId(Integer id){
+    public boolean deleteFollowerId(String id){
 
         return followers.remove(id);
     }
 
-    public List<Integer> getFollowers(){
+    public List<String> getFollowers(){
         return followers;
     }
 
-    public void addFollowedId(Integer id){
+    public void addFollowedId(String id){
         followed.add(id);
     }
-    public boolean deleteFollowedId(Integer id){
+
+    public boolean deleteFollowedId(String id){
         return followed.remove(id);
     }
 
-    public List<Integer> getFollowed(){
+    public List<String> getFollowed(){
         return followed;
     }
 
@@ -88,41 +89,41 @@ public class Client extends Parent {
         return followed.size();
     }
 
-    public List<Integer> getModelsId() {
+    public List<String> getModelsId() {
         return modelsId;
     }
 
-    public List<Integer> getPostsId() {
+    public List<String> getPostsId() {
         return postsId;
     }
 
-    public void addModelId(Integer modelId) {
+    public void addModelId(String modelId) {
         modelsId.add(modelId);
     }
 
-    public void addPostId(Integer postId) {
+    public void addPostId(String postId) {
         postsId.add(postId);
     }
 
-    public void deletePostId(Integer postId){
+    public void deletePostId(String postId){
          postsId.remove(postId);
     }
 
-    public void deleteModelId(Integer modelId){   modelsId.remove(modelId);}
+    public void deleteModelId(String modelId){   modelsId.remove(modelId);}
 
-    public void setFollowed(List<Integer> followed) {
+    public void setFollowed(List<String> followed) {
         this.followed = followed;
     }
 
-    public void setFollowers(List<Integer> followers) {
+    public void setFollowers(List<String> followers) {
         this.followers = followers;
     }
 
-    public void setModelsId(List<Integer> modelsId) {
+    public void setModelsId(List<String> modelsId) {
         this.modelsId = modelsId;
     }
 
-    public void setPostsId(List<Integer> postsId) {
+    public void setPostsId(List<String> postsId) {
         this.postsId = postsId;
     }
 

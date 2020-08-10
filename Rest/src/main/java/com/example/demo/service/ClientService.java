@@ -24,7 +24,7 @@ public interface ClientService {
      * @param id - ID клиента
      * @return - объект клиента с заданным ID
      */
-    Client read(int id);
+    Client read(String id);
 
     /**
      * Обновляет клиента с заданным ID,
@@ -33,7 +33,7 @@ public interface ClientService {
      * @param id - id клиента которого нужно обновить
      * @return - true если данные были обновлены, иначе false
      */
-    boolean update(Client client, int id);
+    boolean update(Client client, String id);
 
     /**
      * Удаляет клиента с заданным ID
@@ -41,7 +41,7 @@ public interface ClientService {
      * @return - true если клиент был удален, иначе false
      */
 
-    boolean delete(int id);
+    boolean delete(String id);
 
     /**
      * Возвращает ID всех подписчиков клиента с заданным ID
@@ -49,7 +49,7 @@ public interface ClientService {
      * @return - ID подписчиков
      */
 
-    List<Integer> readAllFollowers(int id);
+    List<String> readAllFollowers(String id);
 
     /**
      * Добавляет ID в список подписчиков клиента
@@ -58,7 +58,7 @@ public interface ClientService {
      * @return - true если подписчик был добавлен, иначе false
      */
 
-    boolean addFollower(int followerId,int id);
+    boolean addFollower(String followerId,String id);
 
     /**
      * Удаляет ID подписчика из соответсвующего списка у клиента
@@ -67,21 +67,21 @@ public interface ClientService {
      * @return
      */
 
-    boolean deleteFollower(int id,Integer followedId);
+    boolean deleteFollower(String id,String followedId);
 
-    List<Integer> readAllFollowed(int id);
+    List<String> readAllFollowed(String id);
 
-    boolean addFollowed(int followedId,int id);
+    boolean addFollowed(String followedId,String id);
 
-    boolean deleteFollowed(int id,Integer followedId);
+    boolean deleteFollowed(String id,String followedId);
 
-    void addPostId(int postId, int id);
+    void addPostId(String postId, String id);
 
-    void addModelId(int modelId,int id);
+    void addModelId(String modelId,String id);
 
-    List<Integer> readPosts(int id);
+    List<String> readPosts(String id);
     
-    void setMaxId(int id);
+    //void setMaxId(int id);
 
-    int getMaxId();
+    //int getMaxId();
 }

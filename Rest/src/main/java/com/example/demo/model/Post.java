@@ -1,13 +1,13 @@
 package com.example.demo.model;
 
 public class Post extends Parent {
-    private Integer postId;
+    private String postId;
     private String authorId;
     private String authorName;
     private String text;
     private String imageLink;
 
-    public Integer getId() {
+    public String getId() {
         return postId;
     }
 
@@ -35,7 +35,7 @@ public class Post extends Parent {
         this.authorId = authorId;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.postId = id;
     }
 

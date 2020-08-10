@@ -21,9 +21,9 @@ public class FirebaseServiceImpl implements FirebaseService{
         ApiFuture<WriteResult> collectionsApiFuture = dbFirestore.collection(type).document(parent.getId().toString()).set(parent);
         return collectionsApiFuture.get().getUpdateTime().toString();
     }
-    public Client getClientDetails(Integer id) throws ExecutionException, InterruptedException {
+    public Client getClientDetails(String id) throws ExecutionException, InterruptedException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        DocumentReference documentReference = dbFirestore.collection("clients").document(id.toString());
+        DocumentReference documentReference = dbFirestore.collection("clients").document(id);
         ApiFuture<DocumentSnapshot> future = documentReference.get();
         DocumentSnapshot document = future.get();
         Client client = null;
@@ -40,9 +40,6 @@ public class FirebaseServiceImpl implements FirebaseService{
         Firestore dbFirestore = FirestoreClient.getFirestore();
         dbFirestore.collection("clients").listDocuments().forEach(client -> {
             try {
-                int maxId = client.get().get().toObject(Client.class).getId();
-                if (clientService.getMaxId() < maxId)
-                    clientService.setMaxId(maxId - 1);
                 clientService.create(client.get().get().toObject(Client.class));
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -57,7 +54,7 @@ public class FirebaseServiceImpl implements FirebaseService{
         Firestore dbFirestore = FirestoreClient.getFirestore();
         dbFirestore.collection("models").listDocuments().forEach(model -> {
             try {
-                int maxId = model.get().get().toObject(Model.class).getId();
+               int maxId = Integer.parseInt(model.get().get().toObject(Model.class).getId());
                 if (modelService.getMaxId() < maxId)
                     modelService.setMaxId(maxId - 1);
                 modelService.createModel(model.get().get().toObject(Model.class));
@@ -74,7 +71,7 @@ public class FirebaseServiceImpl implements FirebaseService{
         Firestore dbFirestore = FirestoreClient.getFirestore();
         dbFirestore.collection("posts").listDocuments().forEach(post -> {
             try {
-                int maxId = post.get().get().toObject(Post.class).getId();
+                int maxId = Integer.parseInt(post.get().get().toObject(Post.class).getId());
                 if (postService.getMaxId() < maxId)
                     postService.setMaxId(maxId - 1);
                 postService.createPost(post.get().get().toObject(Post.class));

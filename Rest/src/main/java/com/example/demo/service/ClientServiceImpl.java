@@ -13,30 +13,23 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ClientServiceImpl implements ClientService {
 
     // Хранилище клиентов
-    private static final Map<Integer, Client> CLIENT_REPOSITORY_MAP = new HashMap<>();
+    private static final Map<String, Client> CLIENT_REPOSITORY_MAP = new HashMap<>();
 
-    // Переменная для генерации ID клиента
-    private static final AtomicInteger CLIENT_ID_HOLDER = new AtomicInteger();
 
-    private static int maxId = 0;
 
     @Override
     public void create(Client client) {
-        final int clientId = CLIENT_ID_HOLDER.incrementAndGet();
-        client.setId(clientId);
-        CLIENT_REPOSITORY_MAP.put(clientId, client);
+        CLIENT_REPOSITORY_MAP.put(client.getId(), client);
     }
 
-    @Override
+    /*@Override
     public void setMaxId(int id){
         maxId = id;
         CLIENT_ID_HOLDER.set(maxId);
-    }
+    }*/
 
-    @Override
-    public int getMaxId(){
-        return maxId;
-    }
+   // @Override
+   // public int getMaxId(){return maxId;}
 
     @Override
     public List<Client> readAll() {
@@ -44,18 +37,18 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public Client read(int id) {
+    public Client read(String id) {
         return CLIENT_REPOSITORY_MAP.get(id);
     }
 
     @Override
-    public List<Integer> readAllFollowers(int id){ return CLIENT_REPOSITORY_MAP.get(id).getFollowers(); }
+    public List<String> readAllFollowers(String id){ return CLIENT_REPOSITORY_MAP.get(id).getFollowers(); }
 
     @Override
-    public List<Integer> readAllFollowed(int id){ return CLIENT_REPOSITORY_MAP.get(id).getFollowed(); }
+    public List<String> readAllFollowed(String id){ return CLIENT_REPOSITORY_MAP.get(id).getFollowed(); }
 
     @Override
-    public boolean update(Client client, int id) {
+    public boolean update(Client client, String id) {
         if (CLIENT_REPOSITORY_MAP.containsKey(id)) {
             client.setId(id);
             client.setFollowers(CLIENT_REPOSITORY_MAP.get(id).getFollowers());
@@ -71,7 +64,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public boolean delete(int id) {
+    public boolean delete(String id) {
         if (CLIENT_REPOSITORY_MAP.containsKey(id)){
             CLIENT_REPOSITORY_MAP.get(id).getFollowers().forEach(follower -> CLIENT_REPOSITORY_MAP.get(follower).deleteFollowedId(id));
             CLIENT_REPOSITORY_MAP.get(id).getFollowed().forEach(followed -> CLIENT_REPOSITORY_MAP.get(followed).deleteFollowerId(id));
@@ -82,8 +75,8 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public boolean addFollower(int id,int followerId) {
-        if (CLIENT_REPOSITORY_MAP.containsKey(id) && id != followerId){
+    public boolean addFollower(String id,String followerId) {
+        if (CLIENT_REPOSITORY_MAP.containsKey(id) && !id.equals(followerId)){
             if (!CLIENT_REPOSITORY_MAP.get(id).getFollowers().contains(followerId)) {
                 CLIENT_REPOSITORY_MAP.get(id).addFollowerId(followerId);
                 CLIENT_REPOSITORY_MAP.get(followerId).addFollowedId(id);
@@ -94,8 +87,8 @@ public class ClientServiceImpl implements ClientService {
 
     }
     @Override
-    public boolean addFollowed(int id,int followedId) {
-        if (CLIENT_REPOSITORY_MAP.containsKey(id) && id != followedId){
+    public boolean addFollowed(String id,String followedId) {
+        if (CLIENT_REPOSITORY_MAP.containsKey(id) && !id.equals(followedId)){
             if(!CLIENT_REPOSITORY_MAP.get(id).getFollowers().contains(followedId)) {
                 CLIENT_REPOSITORY_MAP.get(id).addFollowedId(followedId);
                 CLIENT_REPOSITORY_MAP.get(followedId).addFollowerId(id);
@@ -107,27 +100,27 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public boolean deleteFollower(int id,Integer followerId){
+    public boolean deleteFollower(String id,String followerId){
         return CLIENT_REPOSITORY_MAP.get(id).deleteFollowerId(followerId) && CLIENT_REPOSITORY_MAP.get(followerId).deleteFollowedId(id);
     }
 
     @Override
-    public boolean deleteFollowed(int id,Integer followedId){
+    public boolean deleteFollowed(String id,String followedId){
         return CLIENT_REPOSITORY_MAP.get(id).deleteFollowedId(followedId) && CLIENT_REPOSITORY_MAP.get(followedId).deleteFollowerId(id);
     }
 
     @Override
-    public List<Integer> readPosts(int id) {
+    public List<String> readPosts(String id) {
         return CLIENT_REPOSITORY_MAP.get(id).getPostsId();
     }
 
     @Override
-    public void addModelId(int modelId, int id) {
+    public void addModelId(String modelId, String id) {
        CLIENT_REPOSITORY_MAP.get(id).addModelId(modelId);
     }
 
     @Override
-    public void addPostId(int postId, int id) {
+    public void addPostId(String postId, String id) {
         CLIENT_REPOSITORY_MAP.get(id).addPostId(postId);
     }
 }
