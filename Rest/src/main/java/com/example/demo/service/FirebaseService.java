@@ -3,10 +3,11 @@ package com.example.demo.service;
 import com.example.demo.model.Client;
 import com.example.demo.model.Parent;
 
+import java.io.FileNotFoundException;
 import java.util.concurrent.ExecutionException;
 
 public interface FirebaseService {
-    String saveDetails(Parent parent, String type) throws ExecutionException, InterruptedException;
+    String saveDetails(Parent parent, String type) throws ExecutionException, InterruptedException, FileNotFoundException;
 
     Client getClientDetails(String id) throws ExecutionException, InterruptedException;
 

@@ -25,6 +25,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public void createPost (Post post){
         Integer postId = POST_ID_HOLDER.incrementAndGet();
+        setMaxId(postId);
         post.setId(postId.toString());
         POST_REPOSITORY_MAP.put(postId.toString(),post);
     }

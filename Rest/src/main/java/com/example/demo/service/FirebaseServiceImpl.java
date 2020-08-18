@@ -4,22 +4,49 @@ import com.example.demo.model.Client;
 import com.example.demo.model.Model;
 import com.example.demo.model.Parent;
 import com.example.demo.model.Post;
+import com.google.api.gax.paging.Page;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.WriteResult;
+import com.google.cloud.storage.Blob;
+import com.google.cloud.storage.BlobId;
+import com.google.cloud.storage.Bucket;
+import com.google.cloud.storage.Storage;
 import com.google.firebase.cloud.FirestoreClient;
+import com.google.firebase.cloud.StorageClient;
 import org.springframework.stereotype.Service;
 
+import java.io.*;
+import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 
 @Service
 public class FirebaseServiceImpl implements FirebaseService{
-    public String saveDetails(Parent parent,String type) throws ExecutionException, InterruptedException {
+    public String saveDetails(Parent parent,String type) throws ExecutionException, InterruptedException, FileNotFoundException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        ApiFuture<WriteResult> collectionsApiFuture = dbFirestore.collection(type).document(parent.getId().toString()).set(parent);
+        ApiFuture<WriteResult> collectionsApiFuture = dbFirestore.collection(type).document(parent.getId()).set(parent);
+        StorageClient storageClient = StorageClient.getInstance();
+
         return collectionsApiFuture.get().getUpdateTime().toString();
+    }
+
+    public void getFromStorage(String imageLink) throws IOException {
+        StorageClient storageClient = StorageClient.getInstance();
+        Page<Blob> bucketPage = storageClient.bucket().list(
+                Storage.BlobListOption.prefix(imageLink)
+        );
+        File dir = new File("Model_images/" + imageLink);
+        dir.getParentFile().mkdirs();
+        dir.mkdir();
+        for (Blob blob : bucketPage.iterateAll()){
+
+            System.out.println(dir);
+            File file = new File(dir + "/" + blob.getName());
+            blob.downloadTo(Paths.get(dir + "/" + file.getName()));
+        }
     }
     public Client getClientDetails(String id) throws ExecutionException, InterruptedException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
@@ -86,14 +113,14 @@ public class FirebaseServiceImpl implements FirebaseService{
     @Override
     public String update(Parent parent, String type) throws ExecutionException, InterruptedException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        ApiFuture<WriteResult> collectionsApiFuture = dbFirestore.collection(type).document(parent.getId().toString()).set(parent);
+        ApiFuture<WriteResult> collectionsApiFuture = dbFirestore.collection(type).document(parent.getId()).set(parent);
         return collectionsApiFuture.get().getUpdateTime().toString();
     }
 
     @Override
     public void delete(Parent parent,String type){
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        ApiFuture<WriteResult> writeResult = dbFirestore.collection(type).document(parent.getId().toString()).delete();
+        ApiFuture<WriteResult> writeResult = dbFirestore.collection(type).document(parent.getId()).delete();
     }
 
 }

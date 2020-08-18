@@ -12,7 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
+import java.io.*;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -39,7 +39,7 @@ public class Controller {
         firebaseServiceImpl.includePosts(postService);
     }
     @PostMapping(value = "/posts")
-    public ResponseEntity<?> createPost(@RequestBody Post post) throws ExecutionException, InterruptedException {
+    public ResponseEntity<?> createPost(@RequestBody Post post) throws ExecutionException, InterruptedException, FileNotFoundException {
         final Client client = clientService.read(post.getAuthorId());
         if (client != null) {
             postService.createPost(post);
@@ -100,7 +100,7 @@ public class Controller {
     }
 
     @PostMapping(value = "/models")
-    public ResponseEntity<?> createModel(@RequestBody Model model) throws ExecutionException, InterruptedException {
+    public ResponseEntity<?> createModel(@RequestBody Model model) throws ExecutionException, InterruptedException, IOException {
         final Client client = clientService.read(model.getAuthorId());
         if (client != null) {
             modelService.createModel(model);
@@ -108,6 +108,25 @@ public class Controller {
             model.setAuthorName(client.getName());
             firebaseServiceImpl.update(client,"clients");
             firebaseServiceImpl.saveDetails(model,"models");
+            firebaseServiceImpl.getFromStorage(model.getModelLink());
+          //  String command1 = "cd ..";
+           // Process proc = Runtime.getRuntime().exec(command1);
+         //   command1 = "cd model-backend";
+         //   proc = Runtime.getRuntime().exec(command1);
+            String command2 = "python -u main.py --Id " + model.getId();
+            Process proc = Runtime.getRuntime().exec(command2);
+
+            // Read the output
+
+            BufferedReader reader =
+                    new BufferedReader(new InputStreamReader(proc.getInputStream()));
+
+            String line = "";
+            while((line = reader.readLine()) != null) {
+                System.out.print(line + "\n");
+            }
+
+            proc.waitFor();
             return new ResponseEntity<>(model.getId(),HttpStatus.CREATED);
         }
         return new ResponseEntity<>(model.getAuthorName(),HttpStatus.NOT_FOUND);
@@ -148,7 +167,7 @@ public class Controller {
 
 
     @PostMapping(value = "/clients")
-    public ResponseEntity<?> createClient(@RequestBody Client client) throws ExecutionException, InterruptedException {
+    public ResponseEntity<?> createClient(@RequestBody Client client) throws ExecutionException, InterruptedException, FileNotFoundException {
         clientService.create(client);
         firebaseServiceImpl.saveDetails(client,"clients");
         return new ResponseEntity<>(HttpStatus.CREATED);
