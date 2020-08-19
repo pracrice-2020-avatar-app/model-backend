@@ -2,24 +2,25 @@ package com.example.demo.model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class Model extends Parent {
     private String modelId;
     private String authorId;
     private String authorName;
     private String modelLink;
-    private HashMap<Integer, ArrayList<Float> > SensorMap = new HashMap<>();
+    private Map<String, ArrayList<String> > sensors;
 
     public String getAuthorName() {
         return authorName;
     }
 
-    public void setSensorMap(HashMap<Integer, ArrayList<Float>> sensorMap) {
-        this.SensorMap = sensorMap;
+    public void setSensors(HashMap<String, ArrayList<String> > sensorMap) {
+        sensors = sensorMap;
     }
 
-    public HashMap<Integer, ArrayList<Float>> getSensorMap() {
-        return SensorMap;
+    public Map<String, ArrayList<String> > getSensors() {
+        return sensors;
     }
 
     public void setAuthorName(String authorName) {
