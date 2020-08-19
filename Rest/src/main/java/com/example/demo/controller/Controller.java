@@ -108,7 +108,7 @@ public class Controller {
             model.setAuthorName(client.getName());
             firebaseServiceImpl.update(client,"clients");
             firebaseServiceImpl.saveDetails(model,"models");
-            firebaseServiceImpl.getFromStorage(model.getModelLink());
+            firebaseServiceImpl.getFromStorage(model.getModelLink(),model.getId());
           //  String command1 = "cd ..";
            // Process proc = Runtime.getRuntime().exec(command1);
          //   command1 = "cd model-backend";

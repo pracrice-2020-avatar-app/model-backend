@@ -33,12 +33,12 @@ public class FirebaseServiceImpl implements FirebaseService{
         return collectionsApiFuture.get().getUpdateTime().toString();
     }
 
-    public void getFromStorage(String imageLink) throws IOException {
+    public void getFromStorage(String imageLink,String id) throws IOException {
         StorageClient storageClient = StorageClient.getInstance();
         Page<Blob> bucketPage = storageClient.bucket().list(
                 Storage.BlobListOption.prefix(imageLink)
         );
-        File dir = new File("Model_images/" + imageLink);
+        File dir = new File("Model_images/photos/set" + id);
         dir.getParentFile().mkdirs();
         dir.mkdir();
         for (Blob blob : bucketPage.iterateAll()){
