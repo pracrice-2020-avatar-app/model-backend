@@ -23,10 +23,8 @@ public class ModelServiceImpl implements ModelService {
 
     @Override
     public void createModel(Model model){
-        System.out.println("maxId = " + maxId);
         Integer id = MODEL_ID_HOLDER.incrementAndGet();
         setMaxId(id);
-        System.out.println("id now =" + id);
         model.setId(id.toString());
         MODEL_REPOSITORY_MAP.put(id.toString(),model);
     }
