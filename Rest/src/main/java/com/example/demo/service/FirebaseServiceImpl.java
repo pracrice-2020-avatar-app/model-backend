@@ -33,7 +33,7 @@ public class FirebaseServiceImpl implements FirebaseService{
         return collectionsApiFuture.get().getUpdateTime().toString();
     }
 
-    public void getFromStorage(String imageLink,String id) throws IOException {
+    public void getFromStorage(String imageLink,String id) {
         StorageClient storageClient = StorageClient.getInstance();
         Page<Blob> bucketPage = storageClient.bucket().list(
                 Storage.BlobListOption.prefix(imageLink)
@@ -47,6 +47,13 @@ public class FirebaseServiceImpl implements FirebaseService{
             File file = new File(dir + "/" + blob.getName());
             blob.downloadTo(Paths.get(dir + "/" + file.getName()));
         }
+    }
+
+    public void uploadModelToStorage(String id) throws FileNotFoundException {
+        StorageClient storageClient = StorageClient.getInstance();
+        InputStream File = new FileInputStream("mvg-output/output_set" + id  + "/reconstruction_sequential/mvs_sequential/scene_dense_mesh_texture_900.png");
+        String blobString = "ModelsPhoto/" + "Model" + id + "/scene_dense_mesh_texture_900.png";
+        storageClient.bucket().create(blobString, File);
     }
     public Client getClientDetails(String id) throws ExecutionException, InterruptedException {
         Firestore dbFirestore = FirestoreClient.getFirestore();

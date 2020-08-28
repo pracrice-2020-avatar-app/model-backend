@@ -142,8 +142,9 @@ public class Controller {
     }
 
     @GetMapping(value = "/models/{modelId}")
-    public ResponseEntity<Model> readModel(@PathVariable(name = "modelId") Integer modelId) {
+    public ResponseEntity<Model> readModel(@PathVariable(name = "modelId") Integer modelId) throws FileNotFoundException {
         final Model model = modelService.readModel(modelId.toString());
+        firebaseServiceImpl.uploadModelToStorage(model.getId());
 
         return model != null
                 ? new ResponseEntity<>(model, HttpStatus.OK)
