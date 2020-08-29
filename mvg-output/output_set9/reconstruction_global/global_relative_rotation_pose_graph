@@ -1,6 +1,0 @@
-graph 1 {
-node [shape=circle]
- n2 --  n3
- n1 --  n3
- n1 --  n2
-}

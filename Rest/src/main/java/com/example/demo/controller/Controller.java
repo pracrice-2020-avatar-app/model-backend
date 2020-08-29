@@ -130,8 +130,10 @@ public class Controller {
                 }
 
                 proc.waitFor();
+                System.out.println("Success");
             }
             catch (Exception e){
+                System.out.println("Failed to create model");
                 return new ResponseEntity<>(-1,HttpStatus.BAD_REQUEST);
             }
             return new ResponseEntity<>(model.getId(),HttpStatus.CREATED);
