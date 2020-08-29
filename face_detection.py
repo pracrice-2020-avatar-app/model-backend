@@ -48,11 +48,11 @@ def detect_face(requestId):
 	face_dir = base_dir + '/face_detection'
 	count = -1
 	base = dict()
-	for file in sorted(os.listdir(base_dir + '/photo/' + 'set' + str(requestId)), key = lambda u: 10000 if 'mask' in u else int(u[:-4])):
+	for file in sorted(os.listdir(base_dir + '/Rest/Model_images/photos/' + 'set' + str(requestId)), key = lambda u: 10000 if 'mask' in u else int(u[:-4])):
 		if 'mask' in file:
 			continue
 		count += 1
-		image = cv2.imread(base_dir + '/photo/' + 'set' + str(requestId) + '/' + file)
+		image = cv2.imread(base_dir + '/Rest/Model_images/photos/' + 'set' + str(requestId) + '/' + file)
 		cv2.imwrite(base_dir + '/for-mvg/' + 'set' + str(requestId) + '/' + file, image)
 		base[file[:-4]] = image
 		(h, w) = image.shape[:2]
