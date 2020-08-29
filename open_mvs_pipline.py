@@ -42,4 +42,4 @@ def detect_ply(requestId, sfmType):
     os.chdir(os.path.join(input_dir))
 
     pRecons = subprocess.Popen([os.path.join(OPENMVG_MVS_BIN, "TextureMesh"), 'scene_dense_mesh.mvs'])
-    pRecons.wait
+    pRecons.wait()

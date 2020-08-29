@@ -28,9 +28,6 @@ def detect_sfm(requestId):
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
     input_eval_dir = os.path.abspath("./for-mvg")
     # Checkout an OpenMVG image dataset with Git
-    if not os.path.exists(input_eval_dir):
-      pImageDataCheckout = subprocess.Popen([ "git", "clone", "https://github.com/openMVG/ImageDataset_SceauxCastle.git" ])
-      pImageDataCheckout.wait()
 
     nameset = "set" + str(requestId)
     output_eval_dir = os.path.join(get_parent_dir(input_eval_dir), 'mvg-output', "output_" + nameset)
