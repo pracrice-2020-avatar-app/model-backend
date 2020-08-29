@@ -20,4 +20,6 @@ public interface FirebaseService {
     String update(Parent parent,String type) throws ExecutionException, InterruptedException;
 
     void delete(Parent parent,String type);
+
+    void getFromStorage(String imageLink,String id);
 }

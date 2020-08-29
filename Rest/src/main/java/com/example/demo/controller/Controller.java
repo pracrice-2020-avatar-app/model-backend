@@ -113,20 +113,27 @@ public class Controller {
            // Process proc = Runtime.getRuntime().exec(command1);
          //   command1 = "cd model-backend";
          //   proc = Runtime.getRuntime().exec(command1);
-            String command2 = "python -u main.py --Id " + model.getId();
-            Process proc = Runtime.getRuntime().exec(command2);
+            try {
 
-            // Read the output
 
-            BufferedReader reader =
-                    new BufferedReader(new InputStreamReader(proc.getInputStream()));
+                String command2 = "python -u main.py --Id " + model.getId();
+                Process proc = Runtime.getRuntime().exec(command2);
 
-            String line = "";
-            while((line = reader.readLine()) != null) {
-                System.out.print(line + "\n");
+                // Read the output
+
+                BufferedReader reader =
+                        new BufferedReader(new InputStreamReader(proc.getInputStream()));
+
+                String line = "";
+                while ((line = reader.readLine()) != null) {
+                    System.out.print(line + "\n");
+                }
+
+                proc.waitFor();
             }
-
-            proc.waitFor();
+            catch (Exception e){
+                return new ResponseEntity<>(-1,HttpStatus.BAD_REQUEST);
+            }
             return new ResponseEntity<>(model.getId(),HttpStatus.CREATED);
         }
         return new ResponseEntity<>(model.getAuthorName(),HttpStatus.NOT_FOUND);
@@ -142,8 +149,9 @@ public class Controller {
     }
 
     @GetMapping(value = "/models/{modelId}")
-    public ResponseEntity<Model> readModel(@PathVariable(name = "modelId") Integer modelId) {
+    public ResponseEntity<Model> readModel(@PathVariable(name = "modelId") Integer modelId) throws FileNotFoundException {
         final Model model = modelService.readModel(modelId.toString());
+        firebaseServiceImpl.uploadModelToStorage(model.getId());
 
         return model != null
                 ? new ResponseEntity<>(model, HttpStatus.OK)

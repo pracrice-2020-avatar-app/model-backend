@@ -1,9 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.model.Client;
-import com.example.demo.model.Model;
-import com.example.demo.model.Parent;
-import com.example.demo.model.Post;
+import com.example.demo.model.*;
 import com.google.api.gax.paging.Page;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.DocumentReference;
@@ -11,16 +8,16 @@ import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.WriteResult;
 import com.google.cloud.storage.Blob;
-import com.google.cloud.storage.BlobId;
-import com.google.cloud.storage.Bucket;
 import com.google.cloud.storage.Storage;
 import com.google.firebase.cloud.FirestoreClient;
 import com.google.firebase.cloud.StorageClient;
+import com.google.firebase.messaging.*;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
 import java.nio.file.Paths;
-import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 @Service
@@ -33,7 +30,7 @@ public class FirebaseServiceImpl implements FirebaseService{
         return collectionsApiFuture.get().getUpdateTime().toString();
     }
 
-    public void getFromStorage(String imageLink,String id) throws IOException {
+    public void getFromStorage(String imageLink,String id) {
         StorageClient storageClient = StorageClient.getInstance();
         Page<Blob> bucketPage = storageClient.bucket().list(
                 Storage.BlobListOption.prefix(imageLink)
@@ -47,6 +44,13 @@ public class FirebaseServiceImpl implements FirebaseService{
             File file = new File(dir + "/" + blob.getName());
             blob.downloadTo(Paths.get(dir + "/" + file.getName()));
         }
+    }
+
+    public void uploadModelToStorage(String id) throws FileNotFoundException {
+        StorageClient storageClient = StorageClient.getInstance();
+        InputStream File = new FileInputStream("mvg-output/output_set" + id  + "/reconstruction_sequential/mvs_sequential/scene_dense_mesh_texture_900.png");
+        String blobString = "ModelsPhoto/" + "Model" + id + "/scene_dense_mesh_texture_900.png";
+        storageClient.bucket().create(blobString, File);
     }
     public Client getClientDetails(String id) throws ExecutionException, InterruptedException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
@@ -123,4 +127,54 @@ public class FirebaseServiceImpl implements FirebaseService{
         ApiFuture<WriteResult> writeResult = dbFirestore.collection(type).document(parent.getId()).delete();
     }
 
+    public String sendByTopic(PushNotifyConf conf, String topic)
+            throws InterruptedException, ExecutionException {
+
+        Message message = Message.builder().setTopic(topic)
+                .setWebpushConfig(WebpushConfig.builder()
+                        .putHeader("ttl", conf.getTtlInSeconds())
+                        .setNotification(createBuilder(conf).build())
+                        .build())
+                .build();
+
+        String response = FirebaseMessaging.getInstance()
+                .sendAsync(message)
+                .get();
+        return response;
+    }
+
+    public String sendPersonal(PushNotifyConf conf, String clientToken)
+            throws ExecutionException, InterruptedException {
+        Message message = Message.builder().setToken(clientToken)
+                .setWebpushConfig(WebpushConfig.builder()
+                        .putHeader("ttl", conf.getTtlInSeconds())
+                        .setNotification(createBuilder(conf).build())
+                        .build())
+                .build();
+
+        String response = FirebaseMessaging.getInstance()
+                .sendAsync(message)
+                .get();
+        return response;
+    }
+
+    public void subscribeUsers(String topic, List<String> clientTokens)
+            throws FirebaseMessagingException {
+        for (String token : clientTokens) {
+            TopicManagementResponse response = FirebaseMessaging.getInstance()
+                    .subscribeToTopic(Collections.singletonList(token), topic);
+        }
+    }
+
+    private WebpushNotification.Builder createBuilder(PushNotifyConf conf){
+        WebpushNotification.Builder builder = WebpushNotification.builder();
+        builder.addAction(new WebpushNotification
+                .Action(conf.getClick_action(), "Открыть"))
+                .setImage(conf.getIcon())
+                .setTitle(conf.getTitle())
+                .setBody(conf.getBody());
+        return builder;
+    }
 }
+
+
