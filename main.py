@@ -9,8 +9,10 @@ import subprocess
 from parameter import *
 
 def main(requestId):
-    print(requestId)
-    face_detection.detect_face(requestId)
+    try:
+        face_detection.detect_face(requestId)
+    except Exception:
+        print("face detection cant be made")
     open_mvg_pipline.detect_sfm(requestId)
     open_mvs_pipline.detect_ply(requestId, 'sequential')
     base_dir = os.path.dirname(__file__)
@@ -21,8 +23,15 @@ def main(requestId):
     pPreview.wait()
 
 if __name__ == '__main__':
+    log = open("C:/Users/Kolldun/IdeaProjects/model-backend/log.txt", 'a')
     try:
         config = get_parameters()
+        log.write(str(config.Id) + " Started\n")
         main(config.Id)
+        log.write(str(config.Id) + ' Success\n')
+        log.close()
     except Exception:
-        raise (ValueError("Error"))
+        log.write(str(config.Id) + ' Error\n')
+        log.close()
+        #raise (ValueError("Error"))
+        exit(1)
