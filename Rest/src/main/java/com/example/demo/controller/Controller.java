@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.io.*;
 import java.util.Collections;
 import java.util.List;
@@ -108,7 +107,7 @@ public class Controller {
             model.setAuthorName(client.getName());
             firebaseServiceImpl.update(client,"clients");
             firebaseServiceImpl.saveDetails(model,"models");
-            firebaseServiceImpl.getFromStorage(model.getModelLink(),model.getId());
+           firebaseServiceImpl.getFromStorage(model.getModelLink(),model.getId());
           //  String command1 = "cd ..";
            // Process proc = Runtime.getRuntime().exec(command1);
          //   command1 = "cd model-backend";
@@ -116,7 +115,7 @@ public class Controller {
             try {
 
 
-                String command2 = "python -u main.py --Id " + model.getId();
+                String command2 = "python -u C:/Users/Kolldun/IdeaProjects/model-backend/main.py --Id " + model.getId();
                 Process proc = Runtime.getRuntime().exec(command2);
 
                 // Read the output
@@ -128,15 +127,26 @@ public class Controller {
                 while ((line = reader.readLine()) != null) {
                     System.out.print(line + "\n");
                 }
-
                 proc.waitFor();
-                System.out.println("Success");
             }
             catch (Exception e){
                 System.out.println("Failed to create model");
                 return new ResponseEntity<>(-1,HttpStatus.BAD_REQUEST);
             }
-            return new ResponseEntity<>(model.getId(),HttpStatus.CREATED);
+
+            File log = new File("C:/Users/Kolldun/IdeaProjects/model-backend/log.txt");
+            FileInputStream fis = new FileInputStream(log);
+            byte[] data = new byte[(int) log.length()];
+            fis.read(data);
+            String datastr = new String(data);
+            String[] dataspl = datastr.split("\n");
+            fis.close();
+            if (dataspl[dataspl.length - 1].substring(0, dataspl[dataspl.length - 1].length() - 1).equals((model.getId() + " Success").toString())) {
+                System.out.println("Success");
+            } else if (dataspl[dataspl.length - 1].substring(0, dataspl[dataspl.length - 1].length() - 1).equals(model.getId() + " Error")) {
+                System.out.println("Failed to create model 2");
+                return new ResponseEntity<>(-1,HttpStatus.BAD_REQUEST);
+            }
         }
         return new ResponseEntity<>(model.getAuthorName(),HttpStatus.NOT_FOUND);
     }
