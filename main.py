@@ -9,8 +9,16 @@ import subprocess
 from parameter import *
 
 def main(requestId):
+    # base_dir = os.path.dirname(__file__)
+    # for file in sorted(os.listdir(base_dir + '/Rest/Model_images/photos/' + 'set' + str(requestId)),
+    #                    key=lambda u: 10000 if 'mask' in u else int(u[:-4])):
+    #     if 'mask' in file:
+    #         continue
+    #     image = cv2.imread(base_dir + '/Rest/Model_images/photos/' + 'set' + str(requestId) + '/' + file)
+    #     cv2.imwrite(base_dir + '/for-mvg/' + 'set' + str(requestId) + '/' + file, image)
     try:
-        face_detection.detect_face(requestId)
+        #face_detection.detect_face(requestId)
+        print(0)
     except Exception:
         print("face detection cant be made")
     open_mvg_pipline.detect_sfm(requestId)
@@ -26,6 +34,7 @@ if __name__ == '__main__':
     log = open("C:/Users/Kolldun/IdeaProjects/model-backend/log.txt", 'a')
     try:
         config = get_parameters()
+        config.Id = 2
         log.write(str(config.Id) + " Started\n")
         main(config.Id)
         log.write(str(config.Id) + ' Success\n')

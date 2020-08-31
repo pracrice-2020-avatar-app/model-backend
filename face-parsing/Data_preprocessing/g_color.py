@@ -21,6 +21,6 @@ for k in range(img_num):
             im_base[im == idx] = color
     filename_save = os.path.join(folder_save, str(k) + '.png')
     result = Image.fromarray((im_base).astype(np.uint8))
-    print (filename_save)
+    #print (filename_save)
     result.save(filename_save)
 

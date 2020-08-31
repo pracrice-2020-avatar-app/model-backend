@@ -127,22 +127,6 @@ public class FirebaseServiceImpl implements FirebaseService{
         ApiFuture<WriteResult> writeResult = dbFirestore.collection(type).document(parent.getId()).delete();
     }
 
-    public String sendByTopic(PushNotifyConf conf, String topic)
-            throws InterruptedException, ExecutionException {
-
-        Message message = Message.builder().setTopic(topic)
-                .setWebpushConfig(WebpushConfig.builder()
-                        .putHeader("ttl", conf.getTtlInSeconds())
-                        .setNotification(createBuilder(conf).build())
-                        .build())
-                .build();
-
-        String response = FirebaseMessaging.getInstance()
-                .sendAsync(message)
-                .get();
-        return response;
-    }
-
     public String sendPersonal(PushNotifyConf conf, String clientToken)
             throws ExecutionException, InterruptedException {
         Message message = Message.builder().setToken(clientToken)
@@ -158,19 +142,10 @@ public class FirebaseServiceImpl implements FirebaseService{
         return response;
     }
 
-    public void subscribeUsers(String topic, List<String> clientTokens)
-            throws FirebaseMessagingException {
-        for (String token : clientTokens) {
-            TopicManagementResponse response = FirebaseMessaging.getInstance()
-                    .subscribeToTopic(Collections.singletonList(token), topic);
-        }
-    }
-
     private WebpushNotification.Builder createBuilder(PushNotifyConf conf){
         WebpushNotification.Builder builder = WebpushNotification.builder();
         builder.addAction(new WebpushNotification
-                .Action(conf.getClick_action(), "Открыть"))
-                .setImage(conf.getIcon())
+                .Action(conf.getClick_action(), "поебать"))
                 .setTitle(conf.getTitle())
                 .setBody(conf.getBody());
         return builder;

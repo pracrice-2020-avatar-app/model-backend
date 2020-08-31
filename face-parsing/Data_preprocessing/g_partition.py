@@ -36,7 +36,7 @@ f_val = open('val_list.txt', 'w')
 f_test = open('test_list.txt', 'w')
 
 for idx, x in enumerate(image_list.loc[:, 1]):
-    print (idx, x)
+    #print (idx, x)
     if x >= 162771 and x < 182638:
         copyfile(os.path.join(s_label, str(idx)+'.png'), os.path.join(d_val_label, str(val_count)+'.png'))
         copyfile(os.path.join(s_img, str(idx)+'.jpg'), os.path.join(d_val_img, str(val_count)+'.jpg'))        
@@ -51,7 +51,7 @@ for idx, x in enumerate(image_list.loc[:, 1]):
         copyfile(os.path.join(s_img, str(idx)+'.jpg'), os.path.join(d_train_img, str(train_count)+'.jpg'))
         train_count += 1  
 
-print (train_count + test_count + val_count)
+#print (train_count + test_count + val_count)
 #### close the file
 f_train.close()
 f_val.close()
