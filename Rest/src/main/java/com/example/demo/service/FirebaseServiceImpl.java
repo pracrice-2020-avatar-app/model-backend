@@ -127,6 +127,22 @@ public class FirebaseServiceImpl implements FirebaseService{
         ApiFuture<WriteResult> writeResult = dbFirestore.collection(type).document(parent.getId()).delete();
     }
 
+    public String sendByTopic(PushNotifyConf conf, String topic)
+            throws InterruptedException, ExecutionException {
+
+        Message message = Message.builder().setTopic(topic)
+                .setWebpushConfig(WebpushConfig.builder()
+                        .putHeader("ttl", conf.getTtlInSeconds())
+                        .setNotification(createBuilder(conf).build())
+                        .build())
+                .build();
+
+        String response = FirebaseMessaging.getInstance()
+                .sendAsync(message)
+                .get();
+        return response;
+    }
+
     public String sendPersonal(PushNotifyConf conf, String clientToken)
             throws ExecutionException, InterruptedException {
         Message message = Message.builder().setToken(clientToken)
@@ -142,13 +158,44 @@ public class FirebaseServiceImpl implements FirebaseService{
         return response;
     }
 
+    public void subscribeUsers(String topic, List<String> clientTokens)
+            throws FirebaseMessagingException {
+        for (String token : clientTokens) {
+            TopicManagementResponse response = FirebaseMessaging.getInstance()
+                    .subscribeToTopic(Collections.singletonList(token), topic);
+        }
+    }
+
+    public String createError(String id) throws ExecutionException, InterruptedException {
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        ApiFuture<WriteResult> collectionsApiFuture = dbFirestore.collection("errors").document().set(new Errors(id));
+        return collectionsApiFuture.get().getUpdateTime().toString();
+    }
+
     private WebpushNotification.Builder createBuilder(PushNotifyConf conf){
         WebpushNotification.Builder builder = WebpushNotification.builder();
         builder.addAction(new WebpushNotification
-                .Action(conf.getClick_action(), "поебать"))
+                .Action(conf.getClick_action(), "Открыть"))
+                .setImage(conf.getIcon())
                 .setTitle(conf.getTitle())
                 .setBody(conf.getBody());
         return builder;
+    }
+    private class Errors {
+        String uId;
+
+        Errors(String uId){
+            this.uId = uId;
+        }
+
+        public String getuId() {
+            return uId;
+        }
+
+        public void setuId(String uId) {
+            this.uId = uId;
+        }
+
     }
 }
 

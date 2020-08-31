@@ -3,7 +3,6 @@ package com.example.demo.controller;
 import com.example.demo.model.Client;
 import com.example.demo.model.Model;
 import com.example.demo.model.Post;
-import com.example.demo.model.PushNotifyConf;
 import com.example.demo.service.*;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.Firestore;
@@ -46,7 +45,7 @@ public class Controller {
             clientService.addPostId(post.getId(),(post.getAuthorId()));
             firebaseServiceImpl.update(clientService.read(post.getAuthorId()),"clients");
             post.setAuthorName(client.getName());
-            //post.setImageLink(client.getImageLink());
+            post.setImageLink(client.getImageLink());
             firebaseServiceImpl.saveDetails(post,"posts");
             return new ResponseEntity<>(HttpStatus.CREATED);
         }
@@ -137,9 +136,10 @@ public class Controller {
                 System.out.println("Success");
             } else if (dataspl[dataspl.length - 1].substring(0, dataspl[dataspl.length - 1].length() - 1).equals(model.getId() + " Error")) {
                 System.out.println("Failed to create model");
+                firebaseServiceImpl.createError(model.getAuthorId());
                 return new ResponseEntity<>(-1,HttpStatus.BAD_REQUEST);
             }
-            return new ResponseEntity<>(model.getId(),HttpStatus.CREATED);
+            return new ResponseEntity<>(model.getAuthorName(),HttpStatus.CREATED);
         }
         return new ResponseEntity<>(model.getAuthorName(),HttpStatus.NOT_FOUND);
     }
@@ -157,10 +157,6 @@ public class Controller {
     public ResponseEntity<Model> readModel(@PathVariable(name = "modelId") Integer modelId) throws FileNotFoundException, ExecutionException, InterruptedException {
         final Model model = modelService.readModel(modelId.toString());
         firebaseServiceImpl.uploadModelToStorage(model.getId());
-//        System.out.println(model.getAuthorId());
-//
-//        PushNotifyConf pushconf = new PushNotifyConf("test", "body", "", "https://www.google.ru/", "5");
-//        firebaseServiceImpl.sendPersonal(pushconf, clientService.read(model.getAuthorId()).getDeviceToken());
 
         return model != null
                 ? new ResponseEntity<>(model, HttpStatus.OK)
