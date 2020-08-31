@@ -166,6 +166,12 @@ public class FirebaseServiceImpl implements FirebaseService{
         }
     }
 
+    public String createError(String id) throws ExecutionException, InterruptedException {
+        Firestore dbFirestore = FirestoreClient.getFirestore();
+        ApiFuture<WriteResult> collectionsApiFuture = dbFirestore.collection("errors").document().set(new Errors(id));
+        return collectionsApiFuture.get().getUpdateTime().toString();
+    }
+
     private WebpushNotification.Builder createBuilder(PushNotifyConf conf){
         WebpushNotification.Builder builder = WebpushNotification.builder();
         builder.addAction(new WebpushNotification
@@ -174,6 +180,22 @@ public class FirebaseServiceImpl implements FirebaseService{
                 .setTitle(conf.getTitle())
                 .setBody(conf.getBody());
         return builder;
+    }
+    private class Errors {
+        String uId;
+
+        Errors(String uId){
+            this.uId = uId;
+        }
+
+        public String getuId() {
+            return uId;
+        }
+
+        public void setuId(String uId) {
+            this.uId = uId;
+        }
+
     }
 }
 
