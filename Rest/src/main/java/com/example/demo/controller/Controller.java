@@ -143,7 +143,10 @@ public class Controller {
             fis.close();
             if (dataspl[dataspl.length - 1].substring(0, dataspl[dataspl.length - 1].length() - 1).equals((model.getId() + " Success").toString())) {
                 System.out.println("Success");
-                createPost(new Post(model.getAuthorId(),model.getModelLink()));
+                Post post = new Post();
+                post.setAuthorId(model.getAuthorId());
+                post.setImageLink(model.getModelLink());
+                createPost(post);
             } else if (dataspl[dataspl.length - 1].substring(0, dataspl[dataspl.length - 1].length() - 1).equals(model.getId() + " Error")) {
                 System.out.println("Failed to create model 2");
                 firebaseServiceImpl.createError(model.getAuthorId());
