@@ -15,16 +15,6 @@ public class Client extends Parent {
     private List<String> postsId = new ArrayList<>();
     private List<String> modelsId = new ArrayList<>();
 
-    public String getDeviceToken() {
-        return deviceToken;
-    }
-
-    private String deviceToken;
-
-    public void setDeviceToken(String deviceToken) {
-        this.deviceToken = deviceToken;
-    }
-
     public String getId() {
         return clientId;
     }
