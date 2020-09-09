@@ -7,6 +7,11 @@ public class Post extends Parent {
     private String text;
     private String imageLink;
 
+    public Post(String authorId,String imageLink){
+        setAuthorId(authorId);
+        setImageLink(imageLink);
+    }
+
     public String getId() {
         return postId;
     }
