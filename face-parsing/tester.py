@@ -35,7 +35,7 @@ def make_dataset(dir):
     assert os.path.isdir(dir), '%s is not a valid directory' % dir
 
     f = dir.split('/')[-1].split('_')[-1]
-    print (dir, len([name for name in os.listdir(dir) if os.path.isfile(os.path.join(dir, name))]))
+    #print (dir, len([name for name in os.listdir(dir) if os.path.isfile(os.path.join(dir, name))]))
     for i in range(len([name for name in os.listdir(dir) if os.path.isfile(os.path.join(dir, name))])):
         img = str(i) + '.jpg'
         path = os.path.join(dir, img)
@@ -95,10 +95,10 @@ class Tester(object):
         batch_num = int(self.test_size / self.batch_size)
 
         for i in range(batch_num):
-            print (i)
+            #print (i)
             imgs = []
             for j in range(self.batch_size):
-                print(test_paths)
+                #print(test_paths)
                 path = test_paths[i * self.batch_size + j]
                 img = transform(Image.open(path))
                 imgs.append(img)
@@ -118,4 +118,4 @@ class Tester(object):
             self.G = nn.DataParallel(self.G)
 
         # print networks
-        print(self.G)
+        #print(self.G)

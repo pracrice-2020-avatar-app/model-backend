@@ -26,7 +26,7 @@ def detect_ply(requestId, sfmType):
     input_dir = output_dir
     print ("2. Dense point cloud")
     os.chdir(os.path.join(input_dir))
-    pRecons = subprocess.Popen( [os.path.join(OPENMVG_MVS_BIN, "DensifyPointCloud"), 'scene.mvs', '--resolution-level', '3', '--sample-mesh', '0', '--max-resolution', '5000'])
+    pRecons = subprocess.Popen( [os.path.join(OPENMVG_MVS_BIN, "DensifyPointCloud"), 'scene.mvs', '--resolution-level', '2', '--sample-mesh', '0', '--max-resolution', '5000'])
     pRecons.wait()
     print("3. Reconstruction mesh")
     os.chdir(os.path.join(input_dir))
