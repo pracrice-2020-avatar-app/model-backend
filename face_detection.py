@@ -112,8 +112,4 @@ def detect_face(requestId):
 		#u = cv2.bitwise_and(roi, mask_new)
 		#cv2.CvtColor(vis, vis2, cv.CV_GRAY2BGR)
 
-		path = base_dir + '/for-mvg/' + 'set' + str(requestId) + '/' + file[:-4] + '_mask.png'
-		if not os.path.exists(base_dir + '/for-mvg/' + 'set' + str(requestId)):
-			#print('New directory created')
-			os.makedirs(base_dir + '/for-mvg/' + 'set' + str(requestId))
 		Image.fromarray(np.uint8(mask)).save(path)

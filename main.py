@@ -6,19 +6,24 @@ import subprocess
 import open3d
 import numpy as np
 import math
+import cv2
 
 
 
 from parameter import *
 
 def main(requestId):
-    # base_dir = os.path.dirname(__file__)
-    # for file in sorted(os.listdir(base_dir + '/Rest/Model_images/photos/' + 'set' + str(requestId)),
-    #                    key=lambda u: 10000 if 'mask' in u else int(u[:-4])):
-    #     if 'mask' in file:
-    #         continue
-    #     image = cv2.imread(base_dir + '/Rest/Model_images/photos/' + 'set' + str(requestId) + '/' + file)
-    #     cv2.imwrite(base_dir + '/for-mvg/' + 'set' + str(requestId) + '/' + file, image)
+    base_dir = os.path.dirname(__file__)
+    if not os.path.exists(base_dir + '/for-mvg/' + 'set' + str(requestId)):
+        # print('New directory created')
+        os.makedirs(base_dir + '/for-mvg/' + 'set' + str(requestId))
+    for file in sorted(os.listdir(base_dir + '/Rest/Model_images/photos/' + 'set' + str(requestId)),
+                       key=lambda u: 10000 if 'mask' in u else int(u[:-4])):
+        if 'mask' in file:
+            continue
+        print(file)
+        image = cv2.imread(base_dir + '/Rest/Model_images/photos/' + 'set' + str(requestId) + '/' + file)
+        cv2.imwrite(base_dir + '/for-mvg/' + 'set' + str(requestId) + '/' + file, image)
     try:
         #face_detection.detect_face(requestId)
         print(0)
@@ -64,9 +69,9 @@ def main(requestId):
 
 if __name__ == '__main__':
     log = open("C:/Users/Kolldun/IdeaProjects/model-backend/log.txt", 'a')
+    #main(60)
     try:
         config = get_parameters()
-        config.Id = 6
         log.write(str(config.Id) + " Started\n")
         main(config.Id)
         log.write(str(config.Id) + ' Success\n')
