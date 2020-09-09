@@ -112,19 +112,28 @@ public class Controller {
            // Process proc = Runtime.getRuntime().exec(command1);
          //   command1 = "cd model-backend";
          //   proc = Runtime.getRuntime().exec(command1);
-            String command2 = "python -u C:/Users/Kolldun/IdeaProjects/model-backend/main.py --Id " + model.getId();
-            Process proc = Runtime.getRuntime().exec(command2);
+           // try {
 
-            // Read the output
 
-            BufferedReader reader =
-                    new BufferedReader(new InputStreamReader(proc.getInputStream()));
+                String command2 = "python -u C:/Users/Kolldun/IdeaProjects/model-backend/main.py --Id " + model.getId();
+                Process proc = Runtime.getRuntime().exec(command2);
 
-            String line = "";
-            while ((line = reader.readLine()) != null) {
-                System.out.print(line + "\n");
-            }
-            proc.waitFor();
+                // Read the output
+
+                BufferedReader reader =
+                        new BufferedReader(new InputStreamReader(proc.getInputStream()));
+
+                String line = "";
+                while ((line = reader.readLine()) != null) {
+                    System.out.print(line + "\n");
+                }
+                proc.waitFor();
+         //   }
+        //    catch (Exception e){
+        //        System.out.println("Failed to create model");
+        //        return new ResponseEntity<>(-1,HttpStatus.BAD_REQUEST);
+      //      }
+
             File log = new File("C:/Users/Kolldun/IdeaProjects/model-backend/log.txt");
             FileInputStream fis = new FileInputStream(log);
             byte[] data = new byte[(int) log.length()];
@@ -134,8 +143,9 @@ public class Controller {
             fis.close();
             if (dataspl[dataspl.length - 1].substring(0, dataspl[dataspl.length - 1].length() - 1).equals((model.getId() + " Success").toString())) {
                 System.out.println("Success");
+                createPost(new Post(model.getAuthorId(),model.getModelLink()));
             } else if (dataspl[dataspl.length - 1].substring(0, dataspl[dataspl.length - 1].length() - 1).equals(model.getId() + " Error")) {
-                System.out.println("Failed to create model");
+                System.out.println("Failed to create model 2");
                 firebaseServiceImpl.createError(model.getAuthorId());
                 return new ResponseEntity<>(-1,HttpStatus.BAD_REQUEST);
             }
