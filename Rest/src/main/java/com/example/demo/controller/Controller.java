@@ -45,7 +45,7 @@ public class Controller {
             clientService.addPostId(post.getId(),(post.getAuthorId()));
             firebaseServiceImpl.update(clientService.read(post.getAuthorId()),"clients");
             post.setAuthorName(client.getName());
-            post.setImageLink(client.getImageLink());
+            post.setImageLink(post.getImageLink());
             firebaseServiceImpl.saveDetails(post,"posts");
             return new ResponseEntity<>(HttpStatus.CREATED);
         }
@@ -117,7 +117,6 @@ public class Controller {
 
                 String command2 = "python -u C:/Users/Kolldun/IdeaProjects/model-backend/main.py --Id " + model.getId();
                 Process proc = Runtime.getRuntime().exec(command2);
-
                 // Read the output
 
                 BufferedReader reader =
@@ -125,9 +124,20 @@ public class Controller {
 
                 String line = "";
                 while ((line = reader.readLine()) != null) {
+                    if (line.equals(" type INITIAL pair ids: X enter Y enter")) {
+                        System.out.println("Change error y");
+                        firebaseServiceImpl.createError(model.getAuthorId());
+                        return new ResponseEntity<>(-1,HttpStatus.BAD_REQUEST);
+                    }
                     System.out.print(line + "\n");
                 }
-                proc.waitFor();
+                try {
+                    proc.waitFor();
+                } catch(Exception e) {
+                    System.out.println("main error (preview camera vector)");
+                    firebaseServiceImpl.createError(model.getAuthorId());
+                    return new ResponseEntity<>(-1,HttpStatus.BAD_REQUEST);
+                }
          //   }
         //    catch (Exception e){
         //        System.out.println("Failed to create model");
@@ -143,9 +153,12 @@ public class Controller {
             fis.close();
             if (dataspl[dataspl.length - 1].substring(0, dataspl[dataspl.length - 1].length() - 1).equals((model.getId() + " Success").toString())) {
                 System.out.println("Success");
+                firebaseServiceImpl.uploadModelToStorage(model.getId());
                 Post post = new Post();
                 post.setAuthorId(model.getAuthorId());
-                post.setImageLink(model.getModelLink());
+                post.setText(")))");
+                post.setImageLink("ModelsPhoto/Model" + model.getId() + "/scene_dense_mesh_texture_900.png");
+                System.out.println("ModelsPhoto/Model" + model.getId() + "/scene_dense_mesh_texture_900.png");
                 createPost(post);
             } else if (dataspl[dataspl.length - 1].substring(0, dataspl[dataspl.length - 1].length() - 1).equals(model.getId() + " Error")) {
                 System.out.println("Failed to create model 2");
@@ -169,7 +182,6 @@ public class Controller {
     @GetMapping(value = "/models/{modelId}")
     public ResponseEntity<Model> readModel(@PathVariable(name = "modelId") Integer modelId) throws FileNotFoundException, ExecutionException, InterruptedException {
         final Model model = modelService.readModel(modelId.toString());
-        firebaseServiceImpl.uploadModelToStorage(model.getId());
 
         return model != null
                 ? new ResponseEntity<>(model, HttpStatus.OK)

@@ -48,7 +48,7 @@ public class FirebaseServiceImpl implements FirebaseService{
 
     public void uploadModelToStorage(String id) throws FileNotFoundException {
         StorageClient storageClient = StorageClient.getInstance();
-        InputStream File = new FileInputStream("mvg-output/output_set" + id  + "/reconstruction_sequential/mvs_sequential/scene_dense_mesh_texture_900.png");
+        InputStream File = new FileInputStream("C:/Users/Kolldun/IdeaProjects/model-backend/mvg-output/output_set" + id  + "/reconstruction_sequential/mvs_sequential/scene_dense_mesh_texture_900.png");
         String blobString = "ModelsPhoto/" + "Model" + id + "/scene_dense_mesh_texture_900.png";
         storageClient.bucket().create(blobString, File);
     }
@@ -168,7 +168,7 @@ public class FirebaseServiceImpl implements FirebaseService{
 
     public String createError(String id) throws ExecutionException, InterruptedException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        ApiFuture<WriteResult> collectionsApiFuture = dbFirestore.collection("errors").document().set(new Errors(id));
+        ApiFuture<WriteResult> collectionsApiFuture = dbFirestore.collection("Ошибка, побробуйте сфотографировать заново").document().set(new Errors(id));
         return collectionsApiFuture.get().getUpdateTime().toString();
     }
 
