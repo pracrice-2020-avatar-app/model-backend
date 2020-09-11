@@ -153,13 +153,19 @@ public class Controller {
             fis.close();
             if (dataspl[dataspl.length - 1].substring(0, dataspl[dataspl.length - 1].length() - 1).equals((model.getId() + " Success").toString())) {
                 System.out.println("Success");
-                firebaseServiceImpl.uploadModelToStorage(model.getId());
-                Post post = new Post();
-                post.setAuthorId(model.getAuthorId());
-                post.setText(")))");
-                post.setImageLink("ModelsPhoto/Model" + model.getId() + "/scene_dense_mesh_texture_900.png");
-                System.out.println("ModelsPhoto/Model" + model.getId() + "/scene_dense_mesh_texture_900.png");
-                createPost(post);
+                try {
+                    firebaseServiceImpl.uploadModelToStorage(model.getId());
+                    Post post = new Post();
+                    post.setAuthorId(model.getAuthorId());
+                    post.setText(")))");
+                    post.setImageLink("ModelsPhoto/Model" + model.getId() + "/scene_dense_mesh_texture_900.png");
+                    System.out.println("ModelsPhoto/Model" + model.getId() + "/scene_dense_mesh_texture_900.png");
+                    createPost(post);
+                } catch(Exception e) {
+                    System.out.println("main error (preview camera vector)");
+                    firebaseServiceImpl.createError(model.getAuthorId());
+                    return new ResponseEntity<>(-1,HttpStatus.BAD_REQUEST);
+                }
             } else if (dataspl[dataspl.length - 1].substring(0, dataspl[dataspl.length - 1].length() - 1).equals(model.getId() + " Error")) {
                 System.out.println("Failed to create model 2");
                 firebaseServiceImpl.createError(model.getAuthorId());

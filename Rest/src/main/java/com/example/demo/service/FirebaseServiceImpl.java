@@ -168,7 +168,7 @@ public class FirebaseServiceImpl implements FirebaseService{
 
     public String createError(String id) throws ExecutionException, InterruptedException {
         Firestore dbFirestore = FirestoreClient.getFirestore();
-        ApiFuture<WriteResult> collectionsApiFuture = dbFirestore.collection("Ошибка, побробуйте сфотографировать заново").document().set(new Errors(id));
+        ApiFuture<WriteResult> collectionsApiFuture = dbFirestore.collection("errors").document().set(new Errors(id));
         return collectionsApiFuture.get().getUpdateTime().toString();
     }
 
